@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"basic-golang-api/models"
 	"encoding/json"
+	"go-chat-api/models"
 	"net/http"
 
 	"github.com/gorilla/mux"

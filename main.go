@@ -1,16 +1,19 @@
 package main
 
 import (
-	"basic-golang-api/handlers"
-	"basic-golang-api/middlewares"
 	"fmt"
+	"go-chat-api/handlers"
+	"go-chat-api/libs"
+	"go-chat-api/middlewares"
 	"net/http"
 
 	"github.com/gorilla/mux"
 )
 
 func main() {
+	libs.LoadEnv()
 	r := mux.NewRouter()
+	db := libs.ConnectDB()
 
 	// Apply logging middleware to all routes
 	r.Use(middlewares.LoggingMiddleware)
@@ -26,6 +29,9 @@ func main() {
 	protected.HandleFunc("/books/{id}", handlers.UpdateBook).Methods("PUT")
 	protected.HandleFunc("/books/{id}", handlers.DeleteBook).Methods("DELETE")
 
-	fmt.Println("Server running on port 8080...")
-	http.ListenAndServe(":8080", r)
+	fmt.Printf("Server running on port %s...\n", libs.GetEnv("PORT"))
+	err := http.ListenAndServe(":"+libs.GetEnv("PORT"), r)
+	if err != nil {
+		fmt.Printf("Server error: %v\n", err)
+	}
 }

@@ -12,6 +12,21 @@ services:
     networks:
       - app-network
 
+  postgres:
+    image: postgres:15
+    container_name: postgres-db
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  postgres_data:

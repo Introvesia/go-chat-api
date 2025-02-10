@@ -1,14 +1,13 @@
 package handlers
 
 import (
-	"basic-golang-api/models"
 	"encoding/json"
+	"go-chat-api/libs"
+	"go-chat-api/models"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/joho/godotenv"
 )
 
 // In-memory user storage
@@ -18,15 +17,10 @@ var users = map[string]models.User{
 	"john_doe": {ID: "3", Username: "john_doe", Password: "mypassword"},
 }
 
-// Load environment variables
-func loadEnv() {
-	_ = godotenv.Load()
-}
-
 // Generate JWT Token
 func GenerateToken(w http.ResponseWriter, r *http.Request) {
-	loadEnv()
-	jwtSecret := os.Getenv("JWT_SECRET")
+	// Get JWT secret and convert it to bytes
+	jwtSecret := []byte(libs.GetEnv("JWT_SECRET"))
 
 	var creds struct {
 		Username string `json:"username"`
