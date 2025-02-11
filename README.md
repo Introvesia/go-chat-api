@@ -53,3 +53,23 @@ curl -X POST http://localhost:8082/channels \
   -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   -H "Content-Type: application/json"
 ```
+
+## Hot reload
+
+Install `air`:
+
+```bash
+go install github.com/air-verse/air@latest
+```
+
+Add this code after edit profile use command `nano ~/.bashrc`:
+
+```bash
+export PATH=$PATH:$(go env GOPATH)/bin
+```
+
+Run `main.go` with this command:
+
+```bash
+air
+```

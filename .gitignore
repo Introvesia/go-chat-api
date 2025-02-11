@@ -4,3 +4,6 @@
 # Folder bin
 bin/**
 !bin/.gitkeep
+
+# Air's temp folder
+tmp/

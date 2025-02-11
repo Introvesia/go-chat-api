@@ -2,11 +2,14 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"go-chat-api/libs"
+	"go-chat-api/models"
 	"net/http"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type ResponseSuccess struct {
@@ -18,6 +21,17 @@ var responseSuccess ResponseSuccess
 
 func init() {
 	responseSuccess = ResponseSuccess{Code: 200, Status: "success"}
+}
+
+// Hash password using bcrypt
+func hashPassword(password string) (string, error) {
+	hashed, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	return string(hashed), err
+}
+
+// Compare hashed password
+func checkPasswordHash(password, hash string) bool {
+	return bcrypt.CompareHashAndPassword([]byte(hash), []byte(password)) == nil
 }
 
 // Generate JWT Token
@@ -35,9 +49,22 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	db := libs.ConnectDB()
+	var user models.UserModel
+	err := db.Where("username = ?", creds.Username).First(&user).Error
+	if err != nil {
+		http.Error(w, "User not found", http.StatusUnauthorized)
+		return
+	}
+
 	// Validate credentials by directly accessing the map
-	user, exists := users[creds.Username]
-	if !exists || user.Password != creds.Password {
+	passwordHash, err := hashPassword(user.Password)
+	if err != nil {
+		http.Error(w, "Error hashing password", http.StatusInternalServerError)
+		return
+	}
+	fmt.Print(passwordHash)
+	if checkPasswordHash(creds.Password, passwordHash) {
 		http.Error(w, "Invalid username or password", http.StatusUnauthorized)
 		return
 	}
