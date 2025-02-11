@@ -1,12 +1,14 @@
 package models
 
+import "time"
+
 type ChannelModel struct {
 	ID             string `gorm:"primaryKey"`
 	OrganizationID string `gorm:"size:255"`
 	Name           string `gorm:"size:255"`
-	CreatedDate    string `gorm:"size:255"`
-	UpdatedDate    string `gorm:"size:255"`
-	DeletedDate    string `gorm:"size:255"`
+	CreatedDate    time.Time
+	UpdatedDate    time.Time
+	DeletedDate    time.Time
 }
 
 func (ChannelModel) TableName() string {

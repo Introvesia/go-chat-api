@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type UserModel struct {
 	ID              string `gorm:"primaryKey"`
 	Username        string `gorm:"size:255"`
@@ -7,9 +9,9 @@ type UserModel struct {
 	FirstName       string `gorm:"size:255"`
 	LastName        string `gorm:"size:255"`
 	IsEmailVerified bool   `gorm:"default:false"`
-	CreatedDate     string `gorm:"size:255"`
-	UpdatedDate     string `gorm:"size:255"`
-	DeletedDate     string `gorm:"size:255"`
+	CreatedDate     time.Time
+	UpdatedDate     time.Time
+	DeletedDate     time.Time
 }
 
 func (UserModel) TableName() string {
