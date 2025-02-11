@@ -1,6 +1,10 @@
-# go-container-api
+# go-chat-api
 
 Container management API with Golang
+
+## Prerequisites
+
+- Golang installed
 
 ## Preparation for migration tools
 
