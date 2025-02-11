@@ -18,7 +18,10 @@ func main() {
 	r.Use(middlewares.LoggingMiddleware)
 
 	// Public routes
-	r.HandleFunc("/login", handlers.GenerateToken).Methods("POST")
+	r.HandleFunc("/auth/login", handlers.Login).Methods("PUT")
+	r.HandleFunc("/auth/register", handlers.Register).Methods("POST")
+	r.HandleFunc("/auth/forgot-password", handlers.ForgotPassword).Methods("PUT")
+	r.HandleFunc("/auth/reset-password", handlers.ResetPassword).Methods("PUT")
 
 	protected := r.PathPrefix("/").Subrouter()
 	protected.Use(middlewares.AuthMiddleware)

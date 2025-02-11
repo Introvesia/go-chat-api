@@ -1,13 +1,12 @@
-package main
+package libs
 
 import (
-	"go-chat-api/libs"
 	"go-chat-api/models"
 )
 
-func main() {
-	libs.LoadEnv()
-	db := libs.ConnectDB()
+func AutoMigrate() {
+	LoadEnv()
+	db := ConnectDB()
 	db.AutoMigrate(&models.UserModel{})
 	db.AutoMigrate(&models.OrganizationModel{})
 	db.AutoMigrate(&models.ChannelModel{})

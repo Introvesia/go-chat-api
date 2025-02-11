@@ -37,3 +37,19 @@ go list -m all | grep <module>
 ```bash
 go mod tidy
 ```
+
+## Login
+
+```bash
+curl -X POST http://localhost:8082/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"admin", "password":"password123"}'
+```
+
+## List of channels
+
+```bash
+curl -X POST http://localhost:8082/channels \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Content-Type: application/json"
+```
