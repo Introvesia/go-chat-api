@@ -12,6 +12,8 @@ import (
 
 func main() {
 	libs.LoadEnv()
+	// HACK: Comment/uncomment this to set auto migration
+	libs.AutoMigrate()
 	r := mux.NewRouter()
 
 	// Apply logging middleware to all routes

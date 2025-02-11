@@ -49,6 +49,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Find user on DB
 	db := libs.ConnectDB()
 	var user models.UserModel
 	err := db.Where("username = ?", creds.Username).First(&user).Error
@@ -85,15 +86,61 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 // Register
 func Register(w http.ResponseWriter, r *http.Request) {
+	var registry struct {
+		Username  string `json:"username"`
+		Email     string `json:"email"`
+		Password  string `json:"password"`
+		FirstName string `json:"first_name"`
+		LastName  string `json:"last_name"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&registry); err != nil {
+		http.Error(w, "Invalid request payload", http.StatusBadRequest)
+		return
+	}
+
+	// Check username existence
+	db := libs.ConnectDB()
+	var count int64
+	db.Model(&models.UserModel{}).Where("username = ? OR email = ?", registry.Username, registry.Email).Count(&count)
+
+	if count > 0 {
+		http.Error(w, "User already exists", http.StatusUnauthorized)
+		return
+	}
+
+	// Hash password
+	hashedPassword, err := hashPassword(registry.Password)
+	if err != nil {
+		http.Error(w, "Error hashing password", http.StatusInternalServerError)
+		return
+	}
+
+	// Create new user
+	newUser := models.UserModel{
+		Username:  registry.Username,
+		Email:     registry.Email,
+		Password:  hashedPassword,
+		FirstName: registry.FirstName,
+		LastName:  registry.LastName,
+	}
+
+	// Insert user into the database
+	if err := db.Create(&newUser).Error; err != nil {
+		http.Error(w, "Failed to register user", http.StatusInternalServerError)
+		return
+	}
+
 	json.NewEncoder(w).Encode(responseSuccess)
 }
 
 // Forgot password
 func ForgotPassword(w http.ResponseWriter, r *http.Request) {
+	// TODO: Write forgot password logic
 	json.NewEncoder(w).Encode(responseSuccess)
 }
 
 // Reset password
 func ResetPassword(w http.ResponseWriter, r *http.Request) {
+	// TODO: Write reset password logic
 	json.NewEncoder(w).Encode(responseSuccess)
 }

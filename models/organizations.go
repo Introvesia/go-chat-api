@@ -3,9 +3,9 @@ package models
 import "time"
 
 type OrganizationModel struct {
-	ID          string `gorm:"primaryKey"`
-	Name        string `gorm:"size:255"`
-	CreatedDate time.Time
+	ID          uint      `gorm:"primaryKey;autoIncrement"`
+	Name        string    `gorm:"size:255"`
+	CreatedDate time.Time `gorm:"autoCreateTime"`
 	UpdatedDate time.Time
 	DeletedDate time.Time
 }
