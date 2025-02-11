@@ -22,9 +22,11 @@ migrate create -ext sql -dir migrations -seq <name>
 
 ## Migrate database
 
-```bash
-go run migrate.go
-```
+1. Uncomment this code at `main.go`
+    ```go
+    libs.AutoMigrate()
+    ```
+2. Run the server
 
 ## Check the module is uninstalled
 
