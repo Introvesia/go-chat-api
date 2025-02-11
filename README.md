@@ -1,6 +1,6 @@
 # go-chat-api
 
-Container management API with Golang
+Chat API server with Golang for Introvesia Workspace
 
 ## Prerequisites
 

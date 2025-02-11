@@ -4,11 +4,11 @@ import "time"
 
 type UserModel struct {
 	ID              uint      `gorm:"primaryKey;autoIncrement"`
-	Username        string    `gorm:"size:255;uniqueIndex;not null"`
+	Username        string    `gorm:"size:100;uniqueIndex;not null"`
 	Email           string    `gorm:"size:255;uniqueIndex;not null"`
-	Password        string    `gorm:"size:255"`
-	FirstName       string    `gorm:"size:255"`
-	LastName        string    `gorm:"size:255"`
+	Password        string    `gorm:"size:100"`
+	FirstName       string    `gorm:"size:50;not null"`
+	LastName        string    `gorm:"size:50"`
 	IsEmailVerified bool      `gorm:"default:false"`
 	CreatedDate     time.Time `gorm:"autoCreateTime"`
 	UpdatedDate     time.Time

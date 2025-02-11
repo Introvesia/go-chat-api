@@ -3,11 +3,11 @@ package models
 import "time"
 
 type ChannelMessageModel struct {
-	ID          uint `gorm:"primaryKey;autoIncrement"`
-	ChannelID   uint
-	UserID      uint
-	Type        string    `gorm:"size:255"`
-	Message     string    `gorm:"size:255"`
+	ID          uint      `gorm:"primaryKey;autoIncrement"`
+	ChannelID   uint      `gorm:"not null"`
+	UserID      uint      `gorm:"not null"`
+	Type        string    `gorm:"size:255;not null"`
+	Message     string    `gorm:"size:255;not null"`
 	CreatedDate time.Time `gorm:"autoCreateTime"`
 	UpdatedDate time.Time
 	DeletedDate time.Time

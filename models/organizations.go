@@ -4,7 +4,7 @@ import "time"
 
 type OrganizationModel struct {
 	ID          uint      `gorm:"primaryKey;autoIncrement"`
-	Name        string    `gorm:"size:255"`
+	Name        string    `gorm:"size:100;not null"`
 	CreatedDate time.Time `gorm:"autoCreateTime"`
 	UpdatedDate time.Time
 	DeletedDate time.Time

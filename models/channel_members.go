@@ -3,9 +3,9 @@ package models
 import "time"
 
 type ChannelMemberModel struct {
-	ID          uint `gorm:"primaryKey;autoIncrement"`
-	ChannelID   uint
-	UserID      string    `gorm:"size:255"`
+	ID          uint      `gorm:"primaryKey;autoIncrement"`
+	ChannelID   uint      `gorm:"not null"`
+	UserID      uint      `gorm:"not null"`
 	CreatedDate time.Time `gorm:"autoCreateTime"`
 	UpdatedDate time.Time
 	DeletedDate time.Time
